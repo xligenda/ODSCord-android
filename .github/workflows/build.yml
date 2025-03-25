@@ -45,8 +45,13 @@ jobs:
         run: |
           chmod +x gradlew
           ./gradlew make generateUpdaterJson
-          cp **/build/*.zip $GITHUB_WORKSPACE/builds
+          
+          mkdir -p $GITHUB_WORKSPACE/builds
+          
+          find . -name "*.zip" -exec cp {} $GITHUB_WORKSPACE/builds \;
+        
           cp build/updater.json $GITHUB_WORKSPACE/builds
+          
 
       - name: Push builds
         run: |
