@@ -40,9 +40,9 @@ subprojects {
 
     // Fill out with your info
     aliucord {
-        author("DISCORD USERNAME", 123456789L)
-        updateUrl.set("https://raw.githubusercontent.com/USERNAME/REPONAME/builds/updater.json")
-        buildUrl.set("https://raw.githubusercontent.com/USERNAME/REPONAME/builds/%s.zip")
+        author("xligenda", 888016163844534372L)
+        updateUrl.set("https://raw.githubusercontent.com/xligenda/odscord-android/builds/updater.json")
+        buildUrl.set("https://raw.githubusercontent.com/xligenda/odscord-android/builds/%s.zip")
     }
 
     android {
