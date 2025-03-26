@@ -27,8 +27,6 @@ class PluginSettings(private val settings: SettingsAPI) : BottomSheet() {
     private var SettingsAPI.modServerId: Long by settings.delegate(684079636300300336L)
     private var SettingsAPI.usedAccounts: LongArray by settings.delegate(longArrayOf())
 
-    private var SettingsAPI.threshold: Int by settings.delegate(1)
-
     override fun onViewCreated(view: View, bundle: Bundle?) {
         super.onViewCreated(view, bundle)
 
@@ -40,12 +38,13 @@ class PluginSettings(private val settings: SettingsAPI) : BottomSheet() {
                     context = ctx,
                     type = CheckedSetting.ViewType.SWITCH,
                     text = "Включить плагин только на сервере ОДС",
-                    subtext = "Про выключенной настройке плагин будет работать на всех дискорд серверах"
+                    subtext = "При выключенной настройке плагин будет работать на всех дискорд серверах"
                 ).apply {
                     isChecked = settings.pluginOnlyForModServer
                     setOnCheckedListener { settings.pluginOnlyForModServer = it }
                 }
         )
+
 
         addView(
             TextInput(ctx).apply {
@@ -65,15 +64,17 @@ class PluginSettings(private val settings: SettingsAPI) : BottomSheet() {
                         }
                     })
                 }
+                setHint("Выбранный конфиг")
+                8.dp.let { setPadding(it, it, it, it) }
             }
-        )
 
+        )
 
         addView(
             TextInput(ctx).apply {
                 editText.apply {
                     inputType = InputType.TYPE_CLASS_TEXT
-                    setText(settings.selectedConfig)
+                    setText(settings.verbalWarnMessage)
                     addTextChangedListener(object : TextWatcher {
                         override fun beforeTextChanged(s: CharSequence, start: Int, count: Int, after: Int) {
                         }
@@ -82,23 +83,21 @@ class PluginSettings(private val settings: SettingsAPI) : BottomSheet() {
                         }
 
                         override fun afterTextChanged(s: Editable) {
-                            s.toString().let { settings.selectedConfig = it }
+                            s.toString().let { settings.verbalWarnMessage = it }
                         }
                     })
                 }
-                setHint("Выбранный конфиг")
-                8.dp.let { setPadding(it, it, it, it) }
+                setHint("Сообщение при выдаче устного предупреждения")
+                8.dp.let { setPadding(10, 10, 10, 10) }
             }
-
 
         )
 
-        addView(
-            TextView(ctx, null, 0, R.i.UiKit_Settings_Item_Addition).apply {
-                text = "Ссылка на конфиг"
-            }
-        )
-
+//        addView(
+//            TextView(ctx, null, 0, R.i.UiKit_Settings_Item_Addition).apply {
+//                text = "{{PING_USER}} Прошу вас не нарушать пункт правил {{REASON}}, ознакомьтесь с <#975425318984749066>"
+//            }
+//        )
 
     }
 }
