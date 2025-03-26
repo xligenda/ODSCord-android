@@ -65,9 +65,8 @@ class PluginSettings(private val settings: SettingsAPI) : BottomSheet() {
                     })
                 }
                 setHint("Выбранный конфиг")
-                8.dp.let { setPadding(it, it, it, it) }
+                setPadding(10, 40, 10, 40)
             }
-
         )
 
         addView(
@@ -88,10 +87,55 @@ class PluginSettings(private val settings: SettingsAPI) : BottomSheet() {
                     })
                 }
                 setHint("Сообщение при выдаче устного предупреждения")
-                8.dp.let { setPadding(10, 10, 10, 10) }
+                setPadding(10, 40, 10, 40)
             }
-
         )
+
+        addView(
+            TextInput(ctx).apply {
+                editText.apply {
+                    inputType = InputType.TYPE_CLASS_TEXT
+                    setText(settings.discordServerLinkMessage)
+                    addTextChangedListener(object : TextWatcher {
+                        override fun beforeTextChanged(s: CharSequence, start: Int, count: Int, after: Int) {
+                        }
+
+                        override fun onTextChanged(s: CharSequence, start: Int, before: Int, count: Int) {
+                        }
+
+                        override fun afterTextChanged(s: Editable) {
+                            s.toString().let { settings.discordServerLinkMessage = it }
+                        }
+                    })
+                }
+                setHint("Формат сообщения с ссылкой на дискорд сервер")
+                setPadding(10, 40, 10, 40)
+            }
+        )
+
+        addView(
+            TextInput(ctx).apply {
+                editText.apply {
+                    inputType = InputType.TYPE_CLASS_TEXT
+                    setText(settings.giveVerbalWarnShortcut)
+                    addTextChangedListener(object : TextWatcher {
+                        override fun beforeTextChanged(s: CharSequence, start: Int, count: Int, after: Int) {
+                        }
+
+                        override fun onTextChanged(s: CharSequence, start: Int, before: Int, count: Int) {
+                        }
+
+                        override fun afterTextChanged(s: Editable) {
+                            s.toString().let { settings.giveVerbalWarnShortcut = it }
+                        }
+                    })
+                }
+                setHint("Префикс для быстрой выдачи устного предупреждения")
+                setPadding(10, 40, 10, 40)
+            }
+        )
+
+
 
 //        addView(
 //            TextView(ctx, null, 0, R.i.UiKit_Settings_Item_Addition).apply {
