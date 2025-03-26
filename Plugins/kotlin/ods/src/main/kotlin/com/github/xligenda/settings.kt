@@ -13,6 +13,8 @@ import com.aliucord.utils.DimenUtils.dp
 import com.aliucord.views.TextInput
 import com.aliucord.widgets.BottomSheet
 import com.discord.views.CheckedSetting
+import com.lytefast.flexinput.R
+
 
 @Suppress("MISSING_DEPENDENCY_SUPERCLASS")
 class PluginSettings(private val settings: SettingsAPI) : BottomSheet() {
@@ -22,5 +24,34 @@ class PluginSettings(private val settings: SettingsAPI) : BottomSheet() {
     override fun onViewCreated(view: View, bundle: Bundle?) {
         super.onViewCreated(view, bundle)
 
+        val ctx = requireContext()
+
+        addView(
+            TextInput(ctx).apply {
+                editText.apply {
+                    inputType = InputType.TYPE_CLASS_TEXT
+                    setText(settings.threshold.toString())
+                    addTextChangedListener(object : TextWatcher {
+                        override fun beforeTextChanged(s: CharSequence, start: Int, count: Int, after: Int) {
+                        }
+
+                        override fun onTextChanged(s: CharSequence, start: Int, before: Int, count: Int) {
+                        }
+
+                        override fun afterTextChanged(s: Editable) {
+                            s.toString().toIntOrNull()?.let { settings.threshold = it }
+                        }
+                    })
+                }
+                setHint("Text")
+                8.dp.let { setPadding(it, it, it, it) }
+            }
+        )
+
+        addView(
+            TextView(ctx, null, 0, R.i.UiKit_Settings_Item_Addition).apply {
+                text = "Minimum number of characters for the counter to appear. Set to zero for it to always be visible"
+            }
+        )
     }
 }
