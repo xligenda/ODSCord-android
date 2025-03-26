@@ -11,9 +11,6 @@ import com.aliucord.settings.delegate
     requiresRestart = false /* Whether your plugin requires a restart after being installed/updated */
 )
 class EmptyPlugin : Plugin() {
-    private var SettingsAPI.reverse: Boolean by settings.delegate(false)
-    private var SettingsAPI.threshold: Int by settings.delegate(0)
-
     init {
         settingsTab = SettingsTab(PluginSettings::class.java, SettingsTab.Type.BOTTOM_SHEET).withArgs(settings)
     }
