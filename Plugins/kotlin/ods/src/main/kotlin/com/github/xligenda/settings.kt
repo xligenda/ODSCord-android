@@ -27,6 +27,19 @@ class PluginSettings(private val settings: SettingsAPI) : BottomSheet() {
         val ctx = requireContext()
 
         addView(
+            Utils
+                .createCheckedSetting(
+                    context = ctx,
+                    type = CheckedSetting.ViewType.SWITCH,
+                    text = "Reverse",
+                    subtext = "Whether the counter goes in reverse, counting down how many chars remain"
+                ).apply {
+                    isChecked = settings.reverse
+                    setOnCheckedListener { settings.reverse = it }
+                }
+        )
+
+        addView(
             TextInput(ctx).apply {
                 editText.apply {
                     inputType = InputType.TYPE_CLASS_TEXT
