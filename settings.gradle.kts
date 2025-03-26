@@ -6,6 +6,7 @@ rootProject.name = "Plugins"
 // Plugins are included like this
 include(
     "ods",
+    "empty"
 )
 
 // This is required because plugins are in the ExamplePlugins/kotlin subdirectory.
