@@ -5,15 +5,12 @@ import android.text.Editable
 import android.text.InputType
 import android.text.TextWatcher
 import android.view.View
-import android.widget.TextView
 import com.aliucord.Utils
 import com.aliucord.api.SettingsAPI
 import com.aliucord.settings.delegate
-import com.aliucord.utils.DimenUtils.dp
 import com.aliucord.views.TextInput
 import com.aliucord.widgets.BottomSheet
 import com.discord.views.CheckedSetting
-import com.lytefast.flexinput.R
 
 
 @Suppress("MISSING_DEPENDENCY_SUPERCLASS")
@@ -134,14 +131,5 @@ class PluginSettings(private val settings: SettingsAPI) : BottomSheet() {
                 setPadding(10, 40, 10, 40)
             }
         )
-
-
-
-//        addView(
-//            TextView(ctx, null, 0, R.i.UiKit_Settings_Item_Addition).apply {
-//                text = "{{PING_USER}} Прошу вас не нарушать пункт правил {{REASON}}, ознакомьтесь с <#975425318984749066>"
-//            }
-//        )
-
     }
 }
