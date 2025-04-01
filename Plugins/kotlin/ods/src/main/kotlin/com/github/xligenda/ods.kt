@@ -15,30 +15,21 @@ class ODSClient : Plugin() {
         .apply { isAccessible = true }
 
     override fun start(context: Context) {
-        patcher.patch(
-            ChatInputViewModel::class.java
-                .getDeclaredMethod(
-                    "sendMessage",
-                    Context::class.java,
-                    ChatInputViewModel::class.java,
-                    MessageContent::class.java,
-                    List::class.java,
-                    Boolean::class.javaPrimitiveType,
-                    Function1::class.java
-                ),
-            PreHook { callFrame ->
-                try {
-                    val messageContent = callFrame.args[2] as MessageContent? ?: return@PreHook
+        val sendMessageMethod = ChatInputViewModel::class.java.declaredMethods
+            .first { it.name == "sendMessage" && it.parameterTypes.size == 6 }
 
-                    val content = textContentField.get(messageContent) as String?
-                    if (content.isNullOrEmpty()) return@PreHook
+        patcher.patch(sendMessageMethod, PreHook { callFrame ->
+            try {
+                val messageContent = callFrame.args[2] as MessageContent? ?: return@PreHook
 
-                    textContentField.set(messageContent, content.uppercase())
-                } catch (ignored: Throwable) {
-                    logger.error("Failed to apply CAPS LOCK", ignored)
-                }
+                val content = textContentField.get(messageContent) as String?
+                if (content.isNullOrEmpty()) return@PreHook
+
+                textContentField.set(messageContent, content.uppercase())
+            } catch (ignored: Throwable) {
+                logger.error("Failed to apply CAPS LOCK", ignored)
             }
-        )
+        })
     }
 
     override fun stop(context: Context) = patcher.unpatchAll()
