@@ -21,13 +21,22 @@ class ODSClient : Plugin() {
         patcher.patch(sendMessageMethod, PreHook { callFrame ->
             try {
                 val messageContent = callFrame.args[2] as MessageContent? ?: return@PreHook
+                val content = textContentField.get(messageContent) as String? ?: return@PreHook
 
-                val content = textContentField.get(messageContent) as String?
-                if (content.isNullOrEmpty()) return@PreHook
+                if (content.startsWith("!")) {
+                    val parts = content.split(" ")
+                    if (parts.size >= 2) {
+                        val userId = parts[0].removePrefix("!")
+                        val reason = parts[1]
 
-                textContentField.set(messageContent, content.uppercase())
-            } catch (ignored: Throwable) {
-                logger.error("Failed to apply CAPS LOCK", ignored)
+                        if (userId.matches(Regex("\\d+"))) {
+                            val result = "<@$userId> выдаю вам устное предупреждение по причине $reason"
+                            textContentField.set(messageContent, result)
+                        }
+                    }
+                }
+            } catch (e: Throwable) {
+                logger.error("Message processing error", e)
             }
         })
     }
